@@ -18,7 +18,11 @@ export class ApiService {
   /** 🔹 Submit user answers */
   submitAnswers(userData: any): Observable<any> {
     console.log("Submitting user answers:", userData);
-    return this.http.post<any>(`${this.BASE_URL}/Recommendation/submit-answers`, userData, {withCredentials: true});
+    return this.http.post<any>(`${this.BASE_URL}/Recommendation/submit-answers`, userData, {
+      headers: { 'Content-Type': 'application/json' },
+      withCredentials: true
+    });
+    
   }
 
   /** 🔹 Fetch recommendation */

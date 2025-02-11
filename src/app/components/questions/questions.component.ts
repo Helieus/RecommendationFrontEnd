@@ -1,65 +1,75 @@
-import { Component } from '@angular/core';
-import { Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
 import { StateService } from 'src/app/services/state.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.css']
 })
-export class QuestionsComponent {
-  userPreferences: any = {}; // Store user responses
-
-  /** 🔹 Mapping human-readable choices to numerical values for the database */
-  optionsMapping: any = {
-    budgetLevel: { "Cheap": 1, "Mid": 2, "Luxury": 3 },
-    destinationType: { "Island": 1, "City": 2, "Mountain": 3 },
-    activities: { "Hiking": 1, "Nightlife": 2, "Sightseeing": 3 },
-    accommodationType: { "Budget": 1, "Mid-range": 2, "Luxury": 3 },
-    cuisineImportance: { "Somewhat": 1, "Very": 2 },
-    tourismStyle: { "Quiet": 1, "Lively": 2 },
-    tripDuration: { "Short": 1, "Medium": 2, "Long": 3 },
-    travelGroup: { "Solo": 1, "Family": 2, "Friends": 3 },
-    sceneryVibe: { "Beaches": 1, "Mountains": 2, "Urban": 3 }
+export class QuestionsComponent implements OnInit {
+  // Your user preferences model (numeric values from the form)
+  userPreferences: any = {
+    budgetLevelId: null,
+    transportModeId: null,
+    preferredDestinationTypeId: null,
+    preferredActivitiesId: null,
+    preferredAccommodationId: null,
+    cuisineImportanceId: null,
+    tourismStyleId: null,
+    tripDurationId: null,
+    travelGroupId: null,
+    sceneryVibeId: null
   };
 
-  /** 🔹 Questions with human-readable choices */
-  questions = [
-    { label: "What is your budget level?", key: "budgetLevel", options: ["Cheap", "Mid", "Luxury"] },
-    { label: "Preferred Destination Type?", key: "destinationType", options: ["Island", "City", "Mountain"] },
-    { label: "Preferred Activities?", key: "activities", options: ["Hiking", "Nightlife", "Sightseeing"] },
-    { label: "Accommodation Type?", key: "accommodationType", options: ["Budget", "Mid-range", "Luxury"] },
-    { label: "Cuisine Importance?", key: "cuisineImportance", options: ["Somewhat", "Very"] },
-    { label: "Tourism Style?", key: "tourismStyle", options: ["Quiet", "Lively"] },
-    { label: "Trip Duration?", key: "tripDuration", options: ["Short", "Medium", "Long"] },
-    { label: "Travel Group?", key: "travelGroup", options: ["Solo", "Family", "Friends"] },
-    { label: "Scenery Preference?", key: "sceneryVibe", options: ["Beaches", "Mountains", "Urban"] }
-  ];
+  sessionId: string = '';
 
-  constructor(private router: Router, private apiService: ApiService, private stateService: StateService) {}
+  constructor(
+    private apiService: ApiService,
+    private stateService: StateService,
+    private router: Router
+  ) {}
 
-  /** 🔹 Submitting User Answers */
-  submit() {
-    const sessionId = this.stateService.getSession();
-    if (!sessionId) {
-      console.error("No session found!");
-      return;
+  ngOnInit(): void {
+    this.sessionId = this.stateService.getSession() || '';
+    if (!this.sessionId) {
+      this.apiService.startSession().subscribe(response => {
+        this.sessionId = response.sessionId;
+        this.stateService.setSession(this.sessionId);
+        console.log("New session started:", this.sessionId);
+      });
     }
+  }
 
-    // Convert user selections to numerical values before submitting
-    const formattedData: any = { sessionId };
-    for (let key in this.userPreferences) {
-      formattedData[key + "Id"] = this.optionsMapping[key][this.userPreferences[key]];
-    }
+  submit(): void {
+    // Transform the answer keys to match the PascalCase names expected by the API
+    const transformedAnswers = {
+      BudgetLevelId: this.userPreferences.budgetLevelId,
+      TransportModeId: this.userPreferences.transportModeId,
+      PreferredDestinationTypeId: this.userPreferences.preferredDestinationTypeId,
+      PreferredActivitiesId: this.userPreferences.preferredActivitiesId,
+      PreferredAccommodationId: this.userPreferences.preferredAccommodationId,
+      CuisineImportanceId: this.userPreferences.cuisineImportanceId,
+      TourismStyleId: this.userPreferences.tourismStyleId,
+      TripDurationId: this.userPreferences.tripDurationId,
+      TravelGroupId: this.userPreferences.travelGroupId,
+      SceneryVibeId: this.userPreferences.sceneryVibeId
+    };
 
-    console.log("Submitting answers:", formattedData);
+    const payload = { userAnswers: transformedAnswers };
 
-    this.apiService.submitAnswers(formattedData).subscribe(response => {
-      console.log("Submitted successfully:", response);
-      this.router.navigate(['/result']);
-    }, error => {
-      console.error("Error submitting answers", error);
-    });
+    console.log("Submitting payload:", payload);
+
+    this.apiService.submitAnswers(payload).subscribe(
+      response => {
+        console.log("Answers submitted successfully:", response);
+        // After submission, navigate to the result page
+        this.router.navigate(['/result']);
+      },
+      error => {
+        console.error("Error submitting answers:", error);
+      }
+    );
   }
 }
