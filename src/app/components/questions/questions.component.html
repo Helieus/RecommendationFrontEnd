@@ -1,145 +1,158 @@
-<div class="container">
-  <h2>Answer these questions:</h2>
-  <form #myForm="ngForm" (ngSubmit)="submit()">
+<!-- questions.component.html -->
+<mat-toolbar color="primary" class="shadow-sm">
+  <span class="fs-4 fw-bold">Travel Questionnaire</span>
+</mat-toolbar>
 
-    <!-- Budget Level -->
-    <div class="question">
-      <label>
-        What is your Budget? (1 for Cheap, 2 for Medium, 3 for Luxury)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="budgetLevelId" [(ngModel)]="userPreferences.budgetLevelId" required>
-          <mat-option [value]="1">1 (Cheap)</mat-option>
-          <mat-option [value]="2">2 (Medium)</mat-option>
-          <mat-option [value]="3">3 (Luxury)</mat-option>
-        </mat-select>
-      </mat-form-field>
+<div class="container mt-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-10">
+      <mat-card class="p-4">
+        <form #myForm="ngForm" (ngSubmit)="submit()">
+          <h2 class="text-center mb-4">Answer These Questions</h2>
+          
+          <!-- Budget Level -->
+          <div class="mb-3">
+            <label class="form-label">
+              What is your Budget? (1 for Cheap, 2 for Medium, 3 for Luxury)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="budgetLevelId" [(ngModel)]="userPreferences.budgetLevelId" required>
+                <mat-option [value]="1">1 (Cheap)</mat-option>
+                <mat-option [value]="2">2 (Medium)</mat-option>
+                <mat-option [value]="3">3 (Luxury)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Transport Mode -->
+          <div class="mb-3">
+            <label class="form-label">
+              Preferred Transport Mode? (1 for Car, 2 for Ferries, 3 for Public Transport)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="transportModeId" [(ngModel)]="userPreferences.transportModeId" required>
+                <mat-option [value]="1">1 (Car)</mat-option>
+                <mat-option [value]="2">2 (Ferries)</mat-option>
+                <mat-option [value]="3">3 (Public Transport)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Preferred Destination Type -->
+          <div class="mb-3">
+            <label class="form-label">
+              Preferred Destination Type? (1 for Island, 2 for City, 3 for Mountain)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="preferredDestinationTypeId" [(ngModel)]="userPreferences.preferredDestinationTypeId" required>
+                <mat-option [value]="1">1 (Island)</mat-option>
+                <mat-option [value]="2">2 (City)</mat-option>
+                <mat-option [value]="3">3 (Mountain)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Preferred Activities -->
+          <div class="mb-3">
+            <label class="form-label">
+              Preferred Activities? (1 for Hiking, 2 for Nightlife, 3 for Sightseeing)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="preferredActivitiesId" [(ngModel)]="userPreferences.preferredActivitiesId" required>
+                <mat-option [value]="1">1 (Hiking)</mat-option>
+                <mat-option [value]="2">2 (Nightlife)</mat-option>
+                <mat-option [value]="3">3 (Sightseeing)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Preferred Accommodation -->
+          <div class="mb-3">
+            <label class="form-label">
+              Preferred Accommodation? (1 for Budget, 2 for Mid-range, 3 for Luxury)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="preferredAccommodationId" [(ngModel)]="userPreferences.preferredAccommodationId" required>
+                <mat-option [value]="1">1 (Budget)</mat-option>
+                <mat-option [value]="2">2 (Mid-range)</mat-option>
+                <mat-option [value]="3">3 (Luxury)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Cuisine Importance -->
+          <div class="mb-3">
+            <label class="form-label">
+              Cuisine Importance? (1 for Somewhat, 2 for Very)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="cuisineImportanceId" [(ngModel)]="userPreferences.cuisineImportanceId" required>
+                <mat-option [value]="1">1 (Somewhat)</mat-option>
+                <mat-option [value]="2">2 (Very)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Tourism Style -->
+          <div class="mb-3">
+            <label class="form-label">
+              Tourism Style? (1 for Quiet, 2 for Lively)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="tourismStyleId" [(ngModel)]="userPreferences.tourismStyleId" required>
+                <mat-option [value]="1">1 (Quiet)</mat-option>
+                <mat-option [value]="2">2 (Lively)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Trip Duration -->
+          <div class="mb-3">
+            <label class="form-label">
+              Trip Duration? (1 for Short, 2 for Medium, 3 for Long)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="tripDurationId" [(ngModel)]="userPreferences.tripDurationId" required>
+                <mat-option [value]="1">1 (Short)</mat-option>
+                <mat-option [value]="2">2 (Medium)</mat-option>
+                <mat-option [value]="3">3 (Long)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Travel Group -->
+          <div class="mb-3">
+            <label class="form-label">
+              Travel Group? (1 for Solo, 2 for Family, 3 for Friends)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="travelGroupId" [(ngModel)]="userPreferences.travelGroupId" required>
+                <mat-option [value]="1">1 (Solo)</mat-option>
+                <mat-option [value]="2">2 (Family)</mat-option>
+                <mat-option [value]="3">3 (Friends)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Scenery Vibe -->
+          <div class="mb-3">
+            <label class="form-label">
+              Scenery Vibe? (1 for Beaches, 2 for Mountains, 3 for Urban)
+            </label>
+            <mat-form-field appearance="outline" class="w-100">
+              <mat-select name="sceneryVibeId" [(ngModel)]="userPreferences.sceneryVibeId" required>
+                <mat-option [value]="1">1 (Beaches)</mat-option>
+                <mat-option [value]="2">2 (Mountains)</mat-option>
+                <mat-option [value]="3">3 (Urban)</mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div class="text-center mt-4">
+            <button mat-raised-button color="primary" type="submit" class="btn-lg">Submit</button>
+          </div>
+        </form>
+      </mat-card>
     </div>
-
-    <!-- Transport Mode -->
-    <div class="question">
-      <label>
-        Preferred Transport Mode? (1 for Car, 2 for Ferries, 3 for Public Transport)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="transportModeId" [(ngModel)]="userPreferences.transportModeId" required>
-          <mat-option [value]="1">1 (Car)</mat-option>
-          <mat-option [value]="2">2 (Ferries)</mat-option>
-          <mat-option [value]="3">3 (Public Transport)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Preferred Destination Type -->
-    <div class="question">
-      <label>
-        Preferred Destination Type? (1 for Island, 2 for City, 3 for Mountain)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="preferredDestinationTypeId" [(ngModel)]="userPreferences.preferredDestinationTypeId" required>
-          <mat-option [value]="1">1 (Island)</mat-option>
-          <mat-option [value]="2">2 (City)</mat-option>
-          <mat-option [value]="3">3 (Mountain)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Preferred Activities -->
-    <div class="question">
-      <label>
-        Preferred Activities? (1 for Hiking, 2 for Nightlife, 3 for Sightseeing)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="preferredActivitiesId" [(ngModel)]="userPreferences.preferredActivitiesId" required>
-          <mat-option [value]="1">1 (Hiking)</mat-option>
-          <mat-option [value]="2">2 (Nightlife)</mat-option>
-          <mat-option [value]="3">3 (Sightseeing)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Preferred Accommodation -->
-    <div class="question">
-      <label>
-        Preferred Accommodation? (1 for Budget, 2 for Mid-range, 3 for Luxury)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="preferredAccommodationId" [(ngModel)]="userPreferences.preferredAccommodationId" required>
-          <mat-option [value]="1">1 (Budget)</mat-option>
-          <mat-option [value]="2">2 (Mid-range)</mat-option>
-          <mat-option [value]="3">3 (Luxury)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Cuisine Importance -->
-    <div class="question">
-      <label>
-        Cuisine Importance? (1 for Somewhat, 2 for Very)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="cuisineImportanceId" [(ngModel)]="userPreferences.cuisineImportanceId" required>
-          <mat-option [value]="1">1 (Somewhat)</mat-option>
-          <mat-option [value]="2">2 (Very)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Tourism Style -->
-    <div class="question">
-      <label>
-        Tourism Style? (1 for Quiet, 2 for Lively)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="tourismStyleId" [(ngModel)]="userPreferences.tourismStyleId" required>
-          <mat-option [value]="1">1 (Quiet)</mat-option>
-          <mat-option [value]="2">2 (Lively)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Trip Duration -->
-    <div class="question">
-      <label>
-        Trip Duration? (1 for Short, 2 for Medium, 3 for Long)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="tripDurationId" [(ngModel)]="userPreferences.tripDurationId" required>
-          <mat-option [value]="1">1 (Short)</mat-option>
-          <mat-option [value]="2">2 (Medium)</mat-option>
-          <mat-option [value]="3">3 (Long)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Travel Group -->
-    <div class="question">
-      <label>
-        Travel Group? (1 for Solo, 2 for Family, 3 for Friends)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="travelGroupId" [(ngModel)]="userPreferences.travelGroupId" required>
-          <mat-option [value]="1">1 (Solo)</mat-option>
-          <mat-option [value]="2">2 (Family)</mat-option>
-          <mat-option [value]="3">3 (Friends)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <!-- Scenery Vibe -->
-    <div class="question">
-      <label>
-        Scenery Vibe? (1 for Beaches, 2 for Mountains, 3 for Urban)
-      </label>
-      <mat-form-field appearance="outline">
-        <mat-select name="sceneryVibeId" [(ngModel)]="userPreferences.sceneryVibeId" required>
-          <mat-option [value]="1">1 (Beaches)</mat-option>
-          <mat-option [value]="2">2 (Mountains)</mat-option>
-          <mat-option [value]="3">3 (Urban)</mat-option>
-        </mat-select>
-      </mat-form-field>
-    </div>
-
-    <button mat-raised-button color="primary" type="submit">Submit</button>
-  </form>
+  </div>
 </div>

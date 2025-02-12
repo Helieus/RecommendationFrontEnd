@@ -9,22 +9,63 @@ import { Router } from '@angular/router';
 })
 export class ResultComponent implements OnInit {
   recommendation: string = 'Loading...';
+  destinationId: number = 0; // Stores the destination ID returned from the API
+  feedbackSubmitted: boolean = false;
+  feedbackMessage: string = '';
 
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
-    // Call the API to get the recommendation.
-    // The session cookie (set when starting the session/submitting answers) is sent automatically.
+    console.log('ResultComponent ngOnInit called.');
     this.apiService.getRecommendation().subscribe(
       response => {
         console.log("Received Recommendation:", response);
-        // Assuming your API returns an object with a 'name' property
+        // Assume response contains at least id and name
         this.recommendation = response.name || "No recommendations found.";
+        this.destinationId = response.id;
       },
       error => {
         console.error("Error fetching recommendation", error);
         this.recommendation = "Error fetching recommendation.";
       }
     );
+  }
+
+  /**
+   * Called when a feedback button is clicked.
+   * Immediately hides the buttons and shows a restart option.
+   * @param feedbackId - 1: Like, 2: Dislike, 3: Love
+   */
+  submitFeedback(feedbackId: number): void {
+    // Immediately hide feedback buttons and update UI
+    this.feedbackSubmitted = true;
+    this.feedbackMessage = "Submitting your feedback...";
+
+    const feedbackDto = {
+      DestinationId: this.destinationId,
+      FeedbackId: feedbackId
+    };
+
+    console.log("Submitting feedback:", feedbackDto);
+
+    this.apiService.submitFeedback(feedbackDto).subscribe(
+      response => {
+        console.log("Feedback submitted successfully:", response);
+        this.feedbackMessage = "Thanks for your feedback! Please restart your session.";
+        // Optionally, auto-redirect after a few seconds:
+        // setTimeout(() => this.router.navigate(['/home']), 3000);
+      },
+      error => {
+        console.error("Error submitting feedback:", error);
+        this.feedbackMessage = "Thanks for your feedback! Please restart your session.";
+        // Optionally re-enable buttons:
+        // this.feedbackSubmitted = false;
+      }
+    );
+  }
+
+  restartSession(): void {
+    // Redirect immediately to the home page (or call an API to clear session if needed)
+    this.router.navigate(['/']);
   }
 }

@@ -30,50 +30,38 @@ export class QuestionsComponent implements OnInit {
   }
 
   submit(): void {
-    // For testing purposes, override with hard-coded values (all 1)
-    const hardCodedAnswers = {
-      BudgetLevelId: 1,
-      TransportModeId: 1,
-      PreferredDestinationTypeId: 1,
-      PreferredActivitiesId: 1,
-      PreferredAccommodationId: 1,
-      CuisineImportanceId: 1,
-      TourismStyleId: 1,
-      TripDurationId: 1,
-      TravelGroupId: 1,
-      SceneryVibeId: 1
-    };
-
-    // Log the hard-coded values
-    console.log('Submitting with hard-coded values:', hardCodedAnswers);
+    // Log the userPreferences from the form
+    console.log('Submitting with user preferences:', this.userPreferences);
 
     // Force numeric conversion to be sure they are numbers.
     const transformedAnswers = {
-      BudgetLevelId: Number(hardCodedAnswers.BudgetLevelId),
-      TransportModeId: Number(hardCodedAnswers.TransportModeId),
-      PreferredDestinationTypeId: Number(hardCodedAnswers.PreferredDestinationTypeId),
-      PreferredActivitiesId: Number(hardCodedAnswers.PreferredActivitiesId),
-      PreferredAccommodationId: Number(hardCodedAnswers.PreferredAccommodationId),
-      CuisineImportanceId: Number(hardCodedAnswers.CuisineImportanceId),
-      TourismStyleId: Number(hardCodedAnswers.TourismStyleId),
-      TripDurationId: Number(hardCodedAnswers.TripDurationId),
-      TravelGroupId: Number(hardCodedAnswers.TravelGroupId),
-      SceneryVibeId: Number(hardCodedAnswers.SceneryVibeId)
+      BudgetLevelId: Number(this.userPreferences.budgetLevelId),
+      TransportModeId: Number(this.userPreferences.transportModeId),
+      PreferredDestinationTypeId: Number(this.userPreferences.preferredDestinationTypeId),
+      PreferredActivitiesId: Number(this.userPreferences.preferredActivitiesId),
+      PreferredAccommodationId: Number(this.userPreferences.preferredAccommodationId),
+      CuisineImportanceId: Number(this.userPreferences.cuisineImportanceId),
+      TourismStyleId: Number(this.userPreferences.tourismStyleId),
+      TripDurationId: Number(this.userPreferences.tripDurationId),
+      TravelGroupId: Number(this.userPreferences.travelGroupId),
+      SceneryVibeId: Number(this.userPreferences.sceneryVibeId)
     };
 
-    // IMPORTANT: Send the payload directly (do not wrap it in a "userAnswers" property)
-    const payload = transformedAnswers;
+    // Log the final payload
+    console.log("Submitting payload:", transformedAnswers);
 
-    // Log the payload to be submitted
-    console.log("Submitting payload:", payload);
+    // Send the payload directly (without wrapping in a "userAnswers" property)
+    const payload = transformedAnswers;
 
     this.apiService.submitAnswers(payload).subscribe(
       response => {
         console.log("Answers submitted successfully:", response);
+        console.log("Navigating to /result");
         this.router.navigate(['/result']);
       },
       error => {
         console.error("Error submitting answers:", error);
+        this.router.navigate(['/result']);
       }
     );
   }

@@ -1,0 +1,12 @@
+/* result.component.css */
+.container {
+    margin-top: 2rem;
+  }
+  
+  .feedback-buttons button {
+    min-width: 100px;
+    font-weight: bold;
+  }
+  
+  /* Use Bootstrap spacing classes if desired; additional custom styles are optional */
+  
