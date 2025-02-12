@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiService } from 'src/app/services/api.service';
-import { StateService } from 'src/app/services/state.service';
 import { Router } from '@angular/router';
 
 @Component({
@@ -9,62 +8,68 @@ import { Router } from '@angular/router';
   styleUrls: ['./questions.component.css']
 })
 export class QuestionsComponent implements OnInit {
-  // Your user preferences model (numeric values from the form)
+  // Prepopulate with default valid values (assuming 1 is valid for all)
   userPreferences: any = {
-    budgetLevelId: null,
-    transportModeId: null,
-    preferredDestinationTypeId: null,
-    preferredActivitiesId: null,
-    preferredAccommodationId: null,
-    cuisineImportanceId: null,
-    tourismStyleId: null,
-    tripDurationId: null,
-    travelGroupId: null,
-    sceneryVibeId: null
+    budgetLevelId: 1,
+    transportModeId: 1,
+    preferredDestinationTypeId: 1,
+    preferredActivitiesId: 1,
+    preferredAccommodationId: 1,
+    cuisineImportanceId: 1,
+    tourismStyleId: 1,
+    tripDurationId: 1,
+    travelGroupId: 1,
+    sceneryVibeId: 1
   };
 
-  sessionId: string = '';
-
-  constructor(
-    private apiService: ApiService,
-    private stateService: StateService,
-    private router: Router
-  ) {}
+  constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
-    this.sessionId = this.stateService.getSession() || '';
-    if (!this.sessionId) {
-      this.apiService.startSession().subscribe(response => {
-        this.sessionId = response.sessionId;
-        this.stateService.setSession(this.sessionId);
-        console.log("New session started:", this.sessionId);
-      });
-    }
+    // Log the initial default values for debugging.
+    console.log('Initial user preferences:', this.userPreferences);
   }
 
   submit(): void {
-    // Transform the answer keys to match the PascalCase names expected by the API
-    const transformedAnswers = {
-      BudgetLevelId: this.userPreferences.budgetLevelId,
-      TransportModeId: this.userPreferences.transportModeId,
-      PreferredDestinationTypeId: this.userPreferences.preferredDestinationTypeId,
-      PreferredActivitiesId: this.userPreferences.preferredActivitiesId,
-      PreferredAccommodationId: this.userPreferences.preferredAccommodationId,
-      CuisineImportanceId: this.userPreferences.cuisineImportanceId,
-      TourismStyleId: this.userPreferences.tourismStyleId,
-      TripDurationId: this.userPreferences.tripDurationId,
-      TravelGroupId: this.userPreferences.travelGroupId,
-      SceneryVibeId: this.userPreferences.sceneryVibeId
+    // For testing purposes, override with hard-coded values (all 1)
+    const hardCodedAnswers = {
+      BudgetLevelId: 1,
+      TransportModeId: 1,
+      PreferredDestinationTypeId: 1,
+      PreferredActivitiesId: 1,
+      PreferredAccommodationId: 1,
+      CuisineImportanceId: 1,
+      TourismStyleId: 1,
+      TripDurationId: 1,
+      TravelGroupId: 1,
+      SceneryVibeId: 1
     };
 
-    const payload = { userAnswers: transformedAnswers };
+    // Log the hard-coded values
+    console.log('Submitting with hard-coded values:', hardCodedAnswers);
 
+    // Force numeric conversion to be sure they are numbers.
+    const transformedAnswers = {
+      BudgetLevelId: Number(hardCodedAnswers.BudgetLevelId),
+      TransportModeId: Number(hardCodedAnswers.TransportModeId),
+      PreferredDestinationTypeId: Number(hardCodedAnswers.PreferredDestinationTypeId),
+      PreferredActivitiesId: Number(hardCodedAnswers.PreferredActivitiesId),
+      PreferredAccommodationId: Number(hardCodedAnswers.PreferredAccommodationId),
+      CuisineImportanceId: Number(hardCodedAnswers.CuisineImportanceId),
+      TourismStyleId: Number(hardCodedAnswers.TourismStyleId),
+      TripDurationId: Number(hardCodedAnswers.TripDurationId),
+      TravelGroupId: Number(hardCodedAnswers.TravelGroupId),
+      SceneryVibeId: Number(hardCodedAnswers.SceneryVibeId)
+    };
+
+    // IMPORTANT: Send the payload directly (do not wrap it in a "userAnswers" property)
+    const payload = transformedAnswers;
+
+    // Log the payload to be submitted
     console.log("Submitting payload:", payload);
 
     this.apiService.submitAnswers(payload).subscribe(
       response => {
         console.log("Answers submitted successfully:", response);
-        // After submission, navigate to the result page
         this.router.navigate(['/result']);
       },
       error => {
