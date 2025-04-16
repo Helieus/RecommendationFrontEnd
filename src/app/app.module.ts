@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './components/home/home.component';
 import { QuestionsComponent } from './components/questions/questions.component';
 import { ResultComponent } from './components/result/result.component';
-import { MaterialModule } from './material.module'; // Import Material Module
+import { MaterialModule } from './material.module'; 
 
 @NgModule({
   declarations: [
@@ -25,7 +25,7 @@ import { MaterialModule } from './material.module'; // Import Material Module
     FormsModule,
     ReactiveFormsModule,
     AppRoutingModule,
-    MaterialModule // Now Material components will be recognized
+    MaterialModule 
   ],
   providers: [],
   bootstrap: [AppComponent]

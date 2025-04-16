@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./questions.component.css']
 })
 export class QuestionsComponent implements OnInit {
-  // Prepopulate with default valid values (assuming 1 is valid for all)
+  // Prepopulate with default valid values 
   userPreferences: any = {
     budgetLevelId: 1,
     transportModeId: 1,
@@ -25,7 +25,6 @@ export class QuestionsComponent implements OnInit {
   constructor(private apiService: ApiService, private router: Router) {}
 
   ngOnInit(): void {
-    // Log the initial default values for debugging.
     console.log('Initial user preferences:', this.userPreferences);
   }
 
@@ -50,7 +49,7 @@ export class QuestionsComponent implements OnInit {
     // Log the final payload
     console.log("Submitting payload:", transformedAnswers);
 
-    // Send the payload directly (without wrapping in a "userAnswers" property)
+    // Send the payload 
     const payload = transformedAnswers;
 
     this.apiService.submitAnswers(payload).subscribe(

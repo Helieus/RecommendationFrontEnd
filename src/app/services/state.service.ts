@@ -11,7 +11,6 @@ export class StateService {
 
   constructor() {}
 
-  /** 🔹 Generate or retrieve a session */
   setSession(sessionId: string) {
     this.sessionId = sessionId;
     console.log("Session ID Set:", this.sessionId);
@@ -21,7 +20,6 @@ export class StateService {
     return this.sessionId;
   }
 
-  /** 🔹 Store user preferences */
   setUserPreferences(preferences: any) {
     const fullPreferences = { sessionId: this.sessionId, ...preferences };
     this.userPreferencesSubject.next(fullPreferences);

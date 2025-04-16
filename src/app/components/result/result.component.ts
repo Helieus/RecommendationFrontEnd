@@ -9,7 +9,7 @@ import { Router } from '@angular/router';
 })
 export class ResultComponent implements OnInit {
   recommendation: string = 'Loading...';
-  destinationId: number = 0; // Stores the destination ID returned from the API
+  destinationId: number = 0; 
   feedbackSubmitted: boolean = false;
   feedbackMessage: string = '';
 
@@ -20,7 +20,6 @@ export class ResultComponent implements OnInit {
     this.apiService.getRecommendation().subscribe(
       response => {
         console.log("Received Recommendation:", response);
-        // Assume response contains at least id and name
         this.recommendation = response.name || "No recommendations found.";
         this.destinationId = response.id;
       },
@@ -34,7 +33,7 @@ export class ResultComponent implements OnInit {
   /**
    * Called when a feedback button is clicked.
    * Immediately hides the buttons and shows a restart option.
-   * @param feedbackId - 1: Like, 2: Dislike, 3: Love
+   * @param feedbackId - 1: Like, 2: Dislike
    */
   submitFeedback(feedbackId: number): void {
     // Immediately hide feedback buttons and update UI
@@ -52,20 +51,16 @@ export class ResultComponent implements OnInit {
       response => {
         console.log("Feedback submitted successfully:", response);
         this.feedbackMessage = "Thanks for your feedback! Please restart your session.";
-        // Optionally, auto-redirect after a few seconds:
-        // setTimeout(() => this.router.navigate(['/home']), 3000);
       },
       error => {
         console.error("Error submitting feedback:", error);
         this.feedbackMessage = "Thanks for your feedback! Please restart your session.";
-        // Optionally re-enable buttons:
-        // this.feedbackSubmitted = false;
+
       }
     );
   }
 
   restartSession(): void {
-    // Redirect immediately to the home page (or call an API to clear session if needed)
     this.router.navigate(['/']);
   }
 }

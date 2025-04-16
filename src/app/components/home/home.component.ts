@@ -10,7 +10,6 @@ export class HomeComponent {
   constructor(private router: Router) {}
 
   start() {
-    // Simply navigate to the questions page.
     this.router.navigate(['/questions']);
   }
 }
